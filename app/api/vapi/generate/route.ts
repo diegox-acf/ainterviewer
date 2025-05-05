@@ -8,14 +8,14 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const { type, role, level, techStack, amount, userId } = await request.json();
+  const { type, role, level, techstack, amount, userid } = await request.json();
   try {
     const { text: questions } = await generateText({
       model: google("gemini-2.0-flash-100"),
       prompt: `Prepare questions for a job interview.
         The job role is ${role}.
         The job experience level is ${level}.
-        The tech stack used in the job is: ${techStack}.
+        The tech stack used in the job is: ${techstack}.
         The focus between behavioral and technical questions should lean towards: ${type}.
         The amount of questions required is: ${amount}.
         Please return only the questions, without any additional text.
@@ -30,9 +30,9 @@ export async function POST(request: Request) {
       role,
       type,
       level,
-      techStack: techStack.split(","),
+      techstack: techstack.split(","),
       questions: JSON.parse(questions),
-      userId,
+      userid,
       finalized: true,
       coverImage: getRandomInterviewCover(),
       createdAt: new Date().toISOString(),
